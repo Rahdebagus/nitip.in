@@ -174,7 +174,7 @@ document.getElementById('formOrder').addEventListener('submit', (e) => {
   const name = document.getElementById('orderName').value.trim();
   const qty = Math.max(1, parseInt(document.getElementById('orderQty').value || '1', 10));
   const note = document.getElementById('orderNote').value.trim();
-  const ongkir = parseInt(document.getElementById('postageFees').value.replace(/\D/g, ''), 10) || 0;
+  const ongkir = 5000; // Ongkir tetap 5.000
   const location = document.getElementById('locationDelivery').value.trim();
 
   if (!name || !selectedStore || !selectedMenu) {
@@ -182,8 +182,8 @@ document.getElementById('formOrder').addEventListener('submit', (e) => {
     return;
   }
 
-  const total = selectedMenu.price * qty;
-  const totalWithOngkir = ongkir;
+   const subtotal = selectedMenu.price * qty;
+  const total = subtotal + ongkir;
   const lines = [
     'Halo Nitip.in, saya ingin pesan:',
     `Nama  : ${name}`,
@@ -193,7 +193,7 @@ document.getElementById('formOrder').addEventListener('submit', (e) => {
     `Lokasi: ${location}`,
     `Harga : ${rupiah(selectedMenu.price)}`,
     `Ongkir: ${rupiah(ongkir)}`,
-    `Total : ${rupiah(total) + totalWithOngkir }`, 
+    `Total : ${rupiah(total) }`, 
 
     note ? `Catatan: ${note}` : null,
     '',
@@ -240,7 +240,9 @@ function currentUnitPrice() {
 
 function updateOrderTotals() {
   const qty = Math.max(1, parseInt(document.getElementById('orderQty').value || '1', 10));
-  const total = currentUnitPrice() * qty;
+  const ongkir = 5000; // Fixed delivery fee
+  const subtotal = currentUnitPrice() * qty;
+  const total = subtotal + ongkir;
   document.getElementById('orderTotal').value = rupiah(total);
 }
 
@@ -248,6 +250,8 @@ function updateOrderTotals() {
 document.addEventListener('input', (e) => {
   if (e.target.id === 'orderQty') updateOrderTotals();
 });
+
+
 
 /* ==========================
          INIT on load
