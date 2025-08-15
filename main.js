@@ -6,38 +6,38 @@ document.getElementById('y').textContent = new Date().getFullYear();
          ========================== */
 const STORES = [
   {
+    id: 'cafeteria',
+    name: 'Cafetaria',
+    eta: 5,
+    desc: 'Menu favorit mahasiswa, dari kopi hingga pancake.',
+    menus: [
+      { id: 'chk', name: 'Chicken Katsu', price: 20000, img: './img/cafetaria_chiken_katsu.jpg', desc: 'Ayam katsu renyah disajikan dengan saus spesial dan sayuran segar.' },
+      { id: 'cof', name: 'Coffee', price: 18000, img: './img/cafetaria_cofee.jpg', desc: 'Kopi hangat dengan aroma khas, cocok untuk menemani waktu santai.' },
+      { id: 'pnc', name: 'Pancake', price: 16000, img: './img/cafetaria_pancake.jpg', desc: 'Pancake lembut dengan sirup maple manis dan taburan gula halus.' },
+    ],
+  },
+  {
     id: 'wbs',
     name: 'Kantin WBS',
     eta: 8,
-    desc: 'Aneka kopi & snack kampus.',
+    desc: 'Pilihan menu praktis, nikmat, dan terjangkau.',
     menus: [
-      { id: 'cap', name: 'Cappuccino', price: 18000, img: 'https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?w=1200&q=60', desc: 'Espresso + susu steam, creamy & pas manisnya.' },
-      { id: 'ame', name: 'Americano', price: 15000, img: 'https://images.unsplash.com/photo-1528909514045-2fa4ac7a08ba?w=1200&q=60', desc: 'Espresso + air panas, pahit nikmat.' },
-      { id: 'frf', name: 'French Fries', price: 12000, img: 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=1200&q=60', desc: 'Kentang goreng renyah + saus.' },
+      { id: 'grg', name: 'Gorengan Campur', price: 2000, img: './img/wbs_gorengan.jpg', desc: 'Aneka gorengan seperti tempe, tahu, dan bakwan, cocok untuk camilan.' },
+      { id: 'nsc', name: 'Nasi Campur', price: 10000, img: './img/wbs_nasi_campur.jpg', desc: 'Nasi putih dengan lauk lengkap, sayur, dan sambal khas WBS.' },
+      { id: 'nsg', name: 'Nasi Goreng', price: 10000, img: './img/wbs_nasi_gorengan.jpg', desc: 'Nasi goreng dengan bumbu khas, disajikan dengan telur dan kerupuk.' },
     ],
   },
   {
     id: 'lounge',
     name: 'Lounge',
     eta: 6,
-    desc: 'Rice bowl, teh, dan pastry.',
+    desc: 'Tempat santai dengan minuman segar dan snack ringan.',
     menus: [
-      { id: 'rbch', name: 'Rice Bowl Chicken', price: 22000, img: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=1200&q=60', desc: 'Ayam crispy + saus teriyaki.' },
-      { id: 'esteh', name: 'Es Teh Manis', price: 7000, img: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1200&q=60', desc: 'Segar, manis pas.' },
-      { id: 'don', name: 'Donat Cokelat', price: 10000, img: 'https://images.unsplash.com/photo-1541599188778-cdc73298e8f8?w=1200&q=60', desc: 'Topping cokelat, empuk.' },
+      { id: 'bks', name: 'Bakso', price: 10000, img: './img/lounge_bakso.jpg', desc: 'Bakso sapi kenyal dengan kuah gurih dan taburan bawang goreng.' },
+      { id: 'mie', name: 'Pop Mie', price: 8000, img: './img/lounge_pop_mie.jpg', desc: 'Mi instan dalam cup, praktis dan lezat untuk mengganjal perut.' },
+      { id: 'tpc', name: 'Teh Pucuk', price: 4000, img: './img/lounge_teh_pucuk.jpg', desc: 'Teh manis dalam kemasan botol, segar diminum dingin.' },
     ],
-  },
-  {
-    id: 'cafe',
-    name: 'Cafetaria',
-    eta: 7,
-    desc: 'Minuman dingin & roti.',
-    menus: [
-      { id: 'lat', name: 'Cafe Latte', price: 19000, img: 'https://images.unsplash.com/photo-1512568400610-62da28bc8a13?w=1200&q=60', desc: 'Espresso + susu, smooth.' },
-      { id: 'rbbe', name: 'Rice Bowl Beef', price: 26000, img: 'https://images.unsplash.com/photo-1625944525567-53d026b1e1f9?w=1200&q=60', desc: 'Daging sapi saus lada hitam.' },
-      { id: 'rot', name: 'Roti Bakar', price: 12000, img: 'https://images.unsplash.com/photo-1546549032-9571cd6b27df?w=1200&q=60', desc: 'Cokelat/keju, hangat.' },
-    ],
-  },
+  }
 ];
 
 /* ==========================
@@ -175,6 +175,7 @@ document.getElementById('formOrder').addEventListener('submit', (e) => {
   const qty = Math.max(1, parseInt(document.getElementById('orderQty').value || '1', 10));
   const note = document.getElementById('orderNote').value.trim();
   const ongkir = 5000; // Ongkir tetap 5.000
+  const adminFee = 3000; // Biaya admin tetap 3.000
   const location = document.getElementById('locationDelivery').value.trim();
 
   if (!name || !selectedStore || !selectedMenu) {
@@ -183,7 +184,7 @@ document.getElementById('formOrder').addEventListener('submit', (e) => {
   }
 
    const subtotal = selectedMenu.price * qty;
-  const total = subtotal + ongkir;
+  const total = subtotal + ongkir + adminFee;
   const lines = [
     'Halo Nitip.in, saya ingin pesan:',
     `Nama  : ${name}`,
@@ -192,6 +193,7 @@ document.getElementById('formOrder').addEventListener('submit', (e) => {
     `Qty   : ${qty}`,
     `Lokasi: ${location}`,
     `Harga : ${rupiah(selectedMenu.price)}`,
+    `Biaya Admin: ${rupiah(adminFee)}`,
     `Ongkir: ${rupiah(ongkir)}`,
     `Total : ${rupiah(total) }`, 
 
@@ -242,7 +244,8 @@ function updateOrderTotals() {
   const qty = Math.max(1, parseInt(document.getElementById('orderQty').value || '1', 10));
   const ongkir = 5000; // Fixed delivery fee
   const subtotal = currentUnitPrice() * qty;
-  const total = subtotal + ongkir;
+  const adminFee = 3000; // Fixed admin fee
+  const total = subtotal + ongkir + adminFee;
   document.getElementById('orderTotal').value = rupiah(total);
 }
 
